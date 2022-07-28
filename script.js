@@ -28,9 +28,12 @@ function move() {
     gameArray[offset + (i-2)*10] = 0;
     gameArray[offset + (i-2)*10 - 1] = 0;
     gameArray[offset + (i-2)*10 + 11] = 0;
-    gameArray[offset + (i-2)*10 + 10] = 0;
     
-    if (cells[offset + i*10].style.backgroundColor == "green" || cells[offset + i*10].style.backgroundColor == "red") {
+    
+    if (cells[offset + i*10].style.backgroundColor == "green" || cells[offset + i*10].style.backgroundColor == "red" || 
+    cells[offset + i*10 - 1].style.backgroundColor == "green" || cells[offset + i*10 - 1].style.backgroundColor == "red" || 
+    cells[offset + i*10 + 11].style.backgroundColor == "green" || cells[offset + i*10 + 11].style.backgroundColor == "red" ||
+    cells[offset + i*10 + 10].style.backgroundColor == "green" || cells[offset + i*10 + 10].style.backgroundColor == "red") {
         i = 0;
         offset = 5;
     }
