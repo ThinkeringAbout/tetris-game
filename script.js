@@ -10,7 +10,7 @@ let lShape = [0, 1, 10, 20];
 let jShape = [0, 1, 11, 21];
 let tShape = [0, 10, 9, 11];
 
-let shapeArray = [reversezShape];
+let shapeArray = [zShape];
 // let shapeArray = [zShape, reversezShape, cubeShape, lShape, jShape, tShape];
 
 let lShapeRotates = [
@@ -213,7 +213,21 @@ document.addEventListener('keydown', function(event) {
     clearMovement();
     go();
   } else if (event.code == "ArrowRight") {
-    if (active === jShapeRotates[2] || active === jShapeRotates[0] || (active === zShape && active != zShapeRotates[0]) ||
+    if (active == zShapeRotates[0]) {
+      if (offset < 17) {
+        offset++;
+        clearMovement();
+        go();
+      }
+    } else
+    if (active == reversezShapeRotates[0]) {
+      if (offset < 17) {
+        offset++;
+        clearMovement();
+        go();
+      }
+    }
+    if (active === jShapeRotates[2] || active === jShapeRotates[0] || (active === zShape ) ||
   active == reversezShape || active == lShapeRotates[0] || active == lShapeRotates[2]) {
       if (offset < 16) {
         offset++;
@@ -222,7 +236,7 @@ document.addEventListener('keydown', function(event) {
       }
     } else
     if (active === tmptShape || active == tShapeRotates[1] || active == tShapeRotates[0] || active === tmpjShape ||
-    active == jShapeRotates[0] || active == zShapeRotates[0] || active == lShape || active == cubeShape) {
+    active == jShapeRotates[0] || active == lShape || active == cubeShape) {
       if (offset < 17) {
         offset++;
         clearMovement();
