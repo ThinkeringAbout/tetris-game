@@ -3,14 +3,15 @@ let gameArray = [];
 gameArray.length = 180;
 gameArray.fill(0);
 
-let shapeArray = [];
 let zShape = [0, 1, 11, 12];
 let reversezShape = [1, 2, 11, 10];
 let cubeShape = [0, 1, 10, 11];
 let lShape = [0, 1, 10, 20];
 let jShape = [0, 1, 11, 21];
 let tShape = [0, 10, 9, 11];
-shapeArray.push(lShape);
+
+let shapeArray = [reversezShape];
+// let shapeArray = [zShape, reversezShape, cubeShape, lShape, jShape, tShape];
 
 let lShapeRotates = [
   [0, 1, 2, 12],
@@ -39,7 +40,7 @@ let zShapeRotates = [
 ]
 
 let reversezShapeRotates = [
-  [1,11,12,22],
+  [0,10,11,21],
   [1,2,10,11]
 ]
 
@@ -53,7 +54,7 @@ let tmptShape = tShape;
 let i = 0;
 let offset = 15;
 
-let active = lShape;
+let active = change();
 
 for (let x = 0; x < 18; x++) {
     cells[x*10].style.backgroundColor = "green";
@@ -195,7 +196,7 @@ function rotate() {
 setInterval(go, 1000);
 document.addEventListener('keydown', function(event) {
   if (event.code == "ArrowLeft") {
-    if (active === tmptShape || active == tShapeRotates[1] || active == tShapeRotates[2]) {
+    if (active === tmptShape || active == tShapeRotates[1] || (active == tShapeRotates[2] && active != reversezShape)) {
       if (offset > 12) {
         offset--;
         clearMovement();
@@ -221,7 +222,7 @@ document.addEventListener('keydown', function(event) {
       }
     } else
     if (active === tmptShape || active == tShapeRotates[1] || active == tShapeRotates[0] || active === tmpjShape ||
-    active == jShapeRotates[0] || active == zShapeRotates[0] || active == lShape) {
+    active == jShapeRotates[0] || active == zShapeRotates[0] || active == lShape || active == cubeShape) {
       if (offset < 17) {
         offset++;
         clearMovement();
