@@ -10,8 +10,8 @@ let lShape = [0, 1, 10, 20];
 let jShape = [0, 1, 11, 21];
 let tShape = [0, 10, 9, 11];
 
-let shapeArray = [zShape];
-// let shapeArray = [zShape, reversezShape, cubeShape, lShape, jShape, tShape];
+//let shapeArray = [zShape];
+let shapeArray = [zShape, reversezShape, cubeShape, lShape, jShape, tShape];
 
 let lShapeRotates = [
   [0, 1, 2, 12],
@@ -118,8 +118,31 @@ function move() {
         rotateIndex = 0;
         i = 0;
         offset = 15;
+        for (let num = 0; num < 180; num+=10) {
+          let sumArray = 0;
+          for (let xNum = 0; xNum < 10; xNum++) {
+            sumArray += gameArray[num+xNum];
+            if (sumArray == 16) {
+              console.log(num);
+              clearRow(num);
+            }
+          }
+        }
         active = change();
     }
+}
+
+function clearRow(num) {
+  for (let j = 1; j <= 8; j++) {
+    gameArray[num+j] = 0;
+    cells[num+j].style.backgroundColor = 'white';
+  }
+  for (let j = 0; j < num; j++) {
+    if (gameArray[j] == 2 && gameArray[j+10] == 0) {
+      cells[j].style.backgroundColor = 'white';
+      gameArray[j+10] = 2;
+    }
+  }
 }
 
 function draw() {
