@@ -12,9 +12,10 @@ let jShape = [0, 1, 11, 21];
 let tShape = [0, 10, 9, 11];
 
 let scores = 0;
+let gameOverFlag = 0;
 
-let shapeArray = [zShape];
-// let shapeArray = [zShape, reversezShape, cubeShape, lShape, jShape, tShape];
+// let shapeArray = [zShape];
+let shapeArray = [zShape, reversezShape, cubeShape, lShape, jShape, tShape];
 
 let lShapeRotates = [
   [0, 1, 2, 12],
@@ -134,19 +135,35 @@ function move() {
             }
           }
         }
-        active = change();
+        if (isGameOver()) {
+          gameOverFlag = 1;
+          active = undefined;
+          scoreboard.innerText = "GAME OVER";
+        }
+        if (gameOverFlag == 0) {
+          active = change();
+        }
     }
 }
 let deletedRows = 0;
 let tempRows = 0;
 let rowsOffset = 0;
 
+function isGameOver() {
+  for (let r = 1; r <= 8; r++) {
+    if (cells[10+r].style.backgroundColor == 'green') {
+      return true;
+    }
+  }
+}
+
+
 function clearRow(num) {
   for (let j = 1; j <= 8; j++) {
     gameArray[num+j] = 0;
     cells[num+j].style.backgroundColor = 'white';
     tempRows = deletedRows;
-    deletedRows += 1/16;
+    deletedRows += 1/8;
     rowsOffset = deletedRows - tempRows;
     scores += rowsOffset*100;
   }
@@ -167,7 +184,9 @@ function goDown(number) {
 }
 
 function draw() {
-    scoreboard.innerText = "Score: " + scores;
+    if (gameOverFlag == 0) {
+      scoreboard.innerText = "Score: " + scores;
+    }
     for (let x = 0; x < gameArray.length; x++) {
         if (gameArray[x] == 1) {
             cells[x].style.backgroundColor = "red";
@@ -181,9 +200,11 @@ function draw() {
 
 
 function go() {
-  clearMovement();
+  if (gameOverFlag == 0) {
+    clearMovement();
     move();
     draw();
+  }
 }
 
 function clearMovement() {
@@ -239,6 +260,7 @@ function rotate() {
 }
 
 setInterval(go, 800);
+
 document.addEventListener('keydown', function(event) {
   if (event.code == "ArrowLeft") {
     if (active === tmptShape || active == tShapeRotates[1] || (active == tShapeRotates[2] && active != reversezShape)) {
@@ -298,5 +320,3 @@ document.addEventListener('keydown', function(event) {
     rotate();
   }
 })
-
-document.onclick = goDown;
