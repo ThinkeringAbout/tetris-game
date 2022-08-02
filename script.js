@@ -1,4 +1,5 @@
 let cells = document.querySelectorAll('.cell');
+let scoreboard = document.querySelector('#scores');
 let gameArray = [];
 gameArray.length = 180;
 gameArray.fill(0);
@@ -10,8 +11,10 @@ let lShape = [0, 1, 10, 20];
 let jShape = [0, 1, 11, 21];
 let tShape = [0, 10, 9, 11];
 
-//let shapeArray = [zShape];
-let shapeArray = [zShape, reversezShape, cubeShape, lShape, jShape, tShape];
+let scores = 0;
+
+let shapeArray = [zShape];
+// let shapeArray = [zShape, reversezShape, cubeShape, lShape, jShape, tShape];
 
 let lShapeRotates = [
   [0, 1, 2, 12],
@@ -118,34 +121,53 @@ function move() {
         rotateIndex = 0;
         i = 0;
         offset = 15;
-        for (let num = 0; num < 180; num+=10) {
+        for (let num = 0; num < 170; num+=10) {
           let sumArray = 0;
           for (let xNum = 0; xNum < 10; xNum++) {
-            sumArray += gameArray[num+xNum];
-            if (sumArray == 16) {
-              console.log(num);
+            if (cells[num+xNum].style.backgroundColor == 'green') {
+              sumArray += 1;
+            }
+            if (sumArray == 8) {
               clearRow(num);
+              goDown(num);
+              sumArray = 0;
             }
           }
         }
         active = change();
     }
 }
+let deletedRows = 0;
+let tempRows = 0;
+let rowsOffset = 0;
 
 function clearRow(num) {
   for (let j = 1; j <= 8; j++) {
     gameArray[num+j] = 0;
     cells[num+j].style.backgroundColor = 'white';
+    tempRows = deletedRows;
+    deletedRows += 1/16;
+    rowsOffset = deletedRows - tempRows;
+    scores += rowsOffset*100;
   }
-  for (let j = 0; j < num+1; j++) {
-    if (gameArray[j] == 2 && gameArray[j+10] == 0) {
-      cells[j].style.backgroundColor = 'white';
-      gameArray[j+10] = 2;
+  return rowsOffset;
+}
+
+function goDown(number) {
+  for (let x = number; x >= 20; x -= 10) {
+    for (let j = 1; j <= 8; j++) {
+      if (gameArray[x+j] == 2) {
+        gameArray[x+j] = 0;
+        gameArray[x+j+10] = 2;
+        cells[x+j].style.backgroundColor = 'white';
+        cells[x+j+10].style.backgroundColor = 'green';
+      }
     }
   }
 }
 
 function draw() {
+    scoreboard.innerText = "Score: " + scores;
     for (let x = 0; x < gameArray.length; x++) {
         if (gameArray[x] == 1) {
             cells[x].style.backgroundColor = "red";
@@ -216,7 +238,7 @@ function rotate() {
   }
 }
 
-setInterval(go, 1000);
+setInterval(go, 800);
 document.addEventListener('keydown', function(event) {
   if (event.code == "ArrowLeft") {
     if (active === tmptShape || active == tShapeRotates[1] || (active == tShapeRotates[2] && active != reversezShape)) {
@@ -276,3 +298,5 @@ document.addEventListener('keydown', function(event) {
     rotate();
   }
 })
+
+document.onclick = goDown;
