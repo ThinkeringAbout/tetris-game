@@ -124,7 +124,7 @@ function move() {
         for (let num = 0; num < 170; num+=10) {
           let sumArray = 0;
           for (let xNum = 0; xNum < 10; xNum++) {
-            if (cells[num+xNum].style.backgroundColor == 'green') {
+            if (gameArray[num+xNum] == 2) {
               sumArray += 1;
             }
             if (sumArray == 8) {
