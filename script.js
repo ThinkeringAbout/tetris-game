@@ -137,7 +137,7 @@ function clearRow(num) {
     gameArray[num+j] = 0;
     cells[num+j].style.backgroundColor = 'white';
   }
-  for (let j = 0; j < num; j++) {
+  for (let j = 0; j < num+1; j++) {
     if (gameArray[j] == 2 && gameArray[j+10] == 0) {
       cells[j].style.backgroundColor = 'white';
       gameArray[j+10] = 2;
